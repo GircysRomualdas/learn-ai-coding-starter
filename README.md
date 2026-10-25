@@ -1,5 +1,7 @@
 # Sloperator
 
+This is the starter code used in Boot.dev's [Learn AI Coding](https://www.boot.dev/courses/learn-ai-coding) course.
+
 A SlopLang interpreter.
 
 ## Language Reference

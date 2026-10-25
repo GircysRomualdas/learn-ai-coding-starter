@@ -64,6 +64,16 @@ def test_slop_declaration():
     assert isinstance(declaration, VarDecl) and declaration.mutable
 
 
+def test_loadbearing_declaration_is_immutable():
+    (declaration,) = parse_source("loadbearing a = 1✨")
+    assert isinstance(declaration, VarDecl) and not declaration.mutable
+
+
+def test_loadbearing_requires_a_name():
+    with pytest.raises(SlopSyntaxError, match=r"expected a variable name after 'loadbearing'"):
+        parse_source("loadbearing = 1✨")
+
+
 def test_control_flow_shapes():
     (conditional, loop) = parse_source("vibe ✅ { } nah { } ralph ❌ { }")
     assert isinstance(conditional, If) and conditional.else_branch is not None

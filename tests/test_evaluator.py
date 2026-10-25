@@ -109,6 +109,39 @@ hallucinate(n)✨"""
     assert run(source) == "105\n1\n"
 
 
+def test_loadbearing_value_is_readable():
+    assert run("loadbearing LIMIT = 100✨\nhallucinate(LIMIT)✨") == "100\n"
+
+
+def test_inner_block_may_shadow_a_loadbearing():
+    source = """loadbearing LIMIT = 100✨
+vibe ✅ {
+    slop LIMIT = 1✨
+    LIMIT = LIMIT + 1✨
+    hallucinate(LIMIT)✨
+}
+hallucinate(LIMIT)✨"""
+    assert run(source) == "2\n100\n"
+
+
+def test_loadbearing_inside_a_clanker_is_local_and_readable():
+    source = """clanker double() {
+    loadbearing n = 5✨
+    ship n * 2✨
+}
+hallucinate(double())✨"""
+    assert run(source) == "10\n"
+
+
+def test_assigning_a_loadbearing_inside_a_clanker_fails():
+    source = """loadbearing LIMIT = 100✨
+clanker bump() {
+    LIMIT = LIMIT + 1✨
+}
+bump()✨"""
+    assert fails(source) == "SlopLang runtime error at line 3: cannot assign to loadbearing 'LIMIT'"
+
+
 def test_ship_unwinds_nested_blocks_and_loops():
     source = """clanker find() {
     slop i = 0✨

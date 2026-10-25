@@ -1,0 +1,9 @@
+— loadbearing declares a constant that cannot be reassigned.
+loadbearing LIMIT = 100✨
+slop score = 10✨
+
+ralph score < LIMIT {
+    score = score + 10✨
+}
+
+hallucinate(score)✨

@@ -1,0 +1,5 @@
+— Doubling a number with a clanker.
+clanker double(number) {
+    ship number * 2✨
+}
+hallucinate(double(13))✨ — prints 26

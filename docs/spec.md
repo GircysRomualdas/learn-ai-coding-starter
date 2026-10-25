@@ -6,6 +6,12 @@ Files use the `.slop` extension and run with:
 uv run sloperator.py path/to/program.slop
 ```
 
+Pass `--check` to lex and parse a file without executing it. A valid file prints nothing and exits `0`; a lexical or syntax error is written to stderr and exits `1`:
+
+```bash
+uv run sloperator.py --check path/to/program.slop
+```
+
 ## Example
 
 ```slop

@@ -1,6 +1,7 @@
 ---
 description: Reviews code for bugs, regressions, and risky changes
 mode: primary
+steps: 2
 permissions:
   - action: "*"
     resource: "*"

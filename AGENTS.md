@@ -27,6 +27,8 @@ uv run ty check
 
 Add a regression test whenever you fix a bug or change observable language or parser behavior. Cover the specific failing case, including exact stdout, stderr, and exit status for errors. Run a focused test with `uv run pytest tests/test_file.py::test_name`.
 
+Run comparison regression tests with `uv run pytest tests/test_comparisons.py`; add future comparison/precedence cases there.
+
 New `examples/*.slop` files are automatically picked up by `tests/test_examples.py`; each must exit 0 and print non-empty stdout.
 
 ## Language behavior

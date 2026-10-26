@@ -82,6 +82,7 @@ def test_string_escapes(source: str, literal: str):
         ("“a\\", 1, "unterminated string"),
         ("a & b", 1, "unexpected character '&', did you mean '&&'?"),
         ("a | b", 1, "unexpected character '|', did you mean '||'?"),
+        ("— a comment\n@", 2, "unexpected character '@'"),
     ],
 )
 def test_lexical_errors(source: str, line: int, message: str):

@@ -16,7 +16,9 @@ class Environment:
         self.bindings: dict[str, Binding] = {}
         self.parent = parent
 
-    def declare(self, name: str, value: Value, mutable: bool, line: int, keyword: str) -> None:
+    def declare(
+        self, name: str, value: Value, mutable: bool, line: int, keyword: str = "variable"
+    ) -> None:
         if name in self.bindings:
             raise SlopRuntimeError(line, f"'{name}' is already declared in this scope")
         self.bindings[name] = Binding(value, mutable, keyword)

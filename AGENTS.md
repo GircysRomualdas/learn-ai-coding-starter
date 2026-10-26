@@ -14,7 +14,7 @@ Sloperator is a Python 3.13 tree-walking interpreter for SlopLang. Run commands 
 
 ## Validation
 
-Run all four from the repo root:
+OpenCode runs `ruff format` automatically on edited `.py`/`.pyi` files via the `formatter` config in `opencode.jsonc`; reload with `opencode reload` after changing it. Always run `uv run ruff format` after code changes, even if the automatic formatter already ran. Run all four checks from the repo root:
 
 ```bash
 uv run pytest
@@ -28,6 +28,8 @@ uv run ty check
 Add a regression test whenever you fix a bug or change observable language or parser behavior. Cover the specific failing case, including exact stdout, stderr, and exit status for errors. Run a focused test with `uv run pytest tests/test_file.py::test_name`.
 
 Run comparison regression tests with `uv run pytest tests/test_comparisons.py`; add future comparison/precedence cases there.
+
+Run string addition tests with `uv run pytest tests/test_string_addition.py`; add future string concatenation/joining cases there.
 
 New `examples/*.slop` files are automatically picked up by `tests/test_examples.py`; each must exit 0 and print non-empty stdout.
 

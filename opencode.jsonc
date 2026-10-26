@@ -11,6 +11,12 @@
     },
     "buffer": 20000
   },
+  "formatter": {
+    "ruff": {
+      "command": ["uv", "run", "ruff", "format", "$FILE"],
+      "extensions": [".py", ".pyi"]
+    }
+  },
   "permissions": [
     {
       "action": "shell",

@@ -10,7 +10,7 @@ EXAMPLES = Path(__file__).resolve().parent.parent / "examples"
 
 CASES = [
     ("arithmetic", "7\n"),
-    ("equality", "✅\n❌\n❌\n"),
+    ("equality", "✅\n❌\n❌\n✅\n❌\n✅\n"),
 ]
 
 

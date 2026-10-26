@@ -4,6 +4,13 @@
   "watcher": {
     "ignore": ["logs/**"]
   },
+  "compaction": {
+    "auto": true,
+    "keep": {
+      "tokens": 10000
+    },
+    "buffer": 20000
+  },
   "permissions": [
     {
       "action": "shell",

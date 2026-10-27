@@ -12,6 +12,7 @@ CASES = [
     ("arithmetic", "7\n"),
     ("equality", "✅\n❌\n❌\n✅\n❌\n✅\n"),
     ("short-circuit", "❌\n✅\n"),
+    ("scope-repro", "3\n1\n"),
 ]
 
 

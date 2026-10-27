@@ -71,5 +71,12 @@ export default Plugin.define({
         },
       });
     });
+
+    await ctx.tool.transform((tools) => {
+      tools.update("run_slop", (tool) => {
+        tool.description +=
+          "\nUse this tool to run individual .slop examples when checking language behavior. Use the test suite for regression testing.";
+      });
+    });
   },
 });

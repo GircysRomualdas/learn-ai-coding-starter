@@ -1,0 +1,8 @@
+— A function joins two strings and returns the result.
+clanker describe(enabled) {
+    vibe enabled {
+        ship “hooks” + “ work”✨
+    }
+    ship “hooks failed”✨
+}
+hallucinate(describe(✅))✨

@@ -21,6 +21,8 @@ from sloperator.parser.ast import (
     While,
 )
 
+ASSIGNMENT_OPERATORS = frozenset({TokenType.EQUAL, TokenType.PLUS_EQUAL})
+
 
 def parse(tokens: list[Token]) -> Program:
     return Parser(tokens).parse()
@@ -99,7 +101,7 @@ class Parser:
             return self.ship_stmt()
         if self.check(TokenType.LEFT_BRACE):
             return self.block("expected '{'")
-        if self.check(TokenType.IDENTIFIER) and self.peek_next().type is TokenType.EQUAL:
+        if self.check(TokenType.IDENTIFIER) and self.peek_next().type in ASSIGNMENT_OPERATORS:
             return self.assign_stmt()
         return self.expression_stmt()
 

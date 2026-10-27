@@ -83,10 +83,19 @@ No implicit conversions.
 loadbearing LIMIT = 100✨
 slop score = 10✨
 score = score + 5✨
-score = score + 1✨
+score += 1✨
 ```
 
 Assignment is a statement, not an expression: `name = expression✨`. It updates the nearest existing variable, and only when that binding is mutable. Assigning to a `loadbearing` binding is a runtime error: `cannot assign to loadbearing 'LIMIT'`. Reading or assigning an undefined name is a runtime error.
+
+`name += expression✨` is shorthand for `name = name + expression✨`. The right-hand expression is a full expression and is evaluated first, then added to the variable's current value, and the result is stored back into the nearest existing variable:
+
+```slop
+slop n = 2✨
+n += 3 * 4✨        — n is 14 (3 * 4 is 12)
+```
+
+Numbers add and strings concatenate, so `+=` follows the same rules and errors as `+` (reported with the `+=` lexeme). It requires a mutable binding like any other assignment.
 
 Every brace block is a lexical scope. Assignment searches the current scope, then each enclosing scope.
 
@@ -165,7 +174,7 @@ variableDecl   -> ( "slop" | "loadbearing" ) IDENTIFIER "=" expression "✨" ;
 
 statement      -> assignStmt | ifStmt | loopStmt | returnStmt
                 | block | expressionStmt ;
-assignStmt     -> IDENTIFIER "=" expression "✨" ;
+assignStmt     -> IDENTIFIER ( "=" | "+=" ) expression "✨" ;
 ifStmt         -> "vibe" expression block ( "nah" block )? ;
 loopStmt       -> "ralph" expression block ;
 returnStmt     -> "ship" expression "✨" ;

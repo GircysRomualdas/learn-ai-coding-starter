@@ -14,21 +14,33 @@ TIMEOUT_SECONDS = 5
 DEFAULT_PORT = 8080
 
 
+def _text(output: str | bytes | None) -> str:
+    if output is None:
+        return ""
+    if isinstance(output, bytes):
+        return output.decode("utf-8", errors="replace")
+    return output
+
+
 def run_slop(source: str) -> dict[str, str | int]:
     with tempfile.TemporaryDirectory() as directory:
         path = Path(directory) / "program.slop"
         path.write_text(source, encoding="utf-8")
         try:
             completed = subprocess.run(
-                [sys.executable, str(INTERPRETER), str(path)],
+                # Unbuffered, so output printed before a crash or timeout is not stuck in a pipe.
+                [sys.executable, "-u", str(INTERPRETER), str(path)],
                 capture_output=True,
                 encoding="utf-8",
                 timeout=TIMEOUT_SECONDS,
             )
-        except subprocess.TimeoutExpired:
+        except subprocess.TimeoutExpired as expired:
+            stderr = _text(expired.stderr)
+            if stderr and not stderr.endswith("\n"):
+                stderr += "\n"
             return {
-                "stdout": "",
-                "stderr": f"program timed out after {TIMEOUT_SECONDS} seconds",
+                "stdout": _text(expired.stdout),
+                "stderr": f"{stderr}program timed out after {TIMEOUT_SECONDS} seconds",
                 "exit_code": 124,
             }
     return {
@@ -46,6 +58,8 @@ class Handler(BaseHTTPRequestHandler):
         body = (PLAYGROUND_DIR / "index.html").read_bytes()
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
+        # Always serve the current editor page so a tab never runs stale JavaScript.
+        self.send_header("Cache-Control", "no-store")
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)

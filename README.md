@@ -45,3 +45,6 @@ uv run playground/server.py
 ```
 
 Then open <http://localhost:8080>.
+
+The output pane keeps everything the program printed before it failed, then shows the
+error in red. Programs that exceed the five second limit keep their printed output too.

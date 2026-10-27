@@ -5,9 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SlopLang Playground</title>
     <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
       body {
         font-family: system-ui, sans-serif;
-        margin: 0;
+        margin: 0 auto;
+        max-width: 60rem;
         padding: 1.5rem;
         background: #f6f6f4;
         color: #222;
@@ -47,7 +53,9 @@
       }
       textarea,
       pre {
+        display: block;
         width: 100%;
+        max-width: 100%;
         box-sizing: border-box;
         font:
           15px/1.45 ui-monospace,
@@ -56,15 +64,16 @@
           monospace;
       }
       textarea {
-        height: 22rem;
+        height: clamp(16rem, 50vh, 26rem);
         padding: 0.75rem;
         border: 1px solid #bbb;
         border-radius: 6px;
         resize: vertical;
       }
       pre {
-        min-width: 800px;
         min-height: 6rem;
+        max-height: 24rem;
+        overflow: auto;
         margin: 0.75rem 0 0;
         padding: 0.75rem;
         border-radius: 6px;
@@ -75,6 +84,11 @@
       }
       pre .err {
         color: #ff8a80;
+      }
+      @media (max-width: 30rem) {
+        body {
+          padding: 1rem;
+        }
       }
     </style>
   </head>
@@ -123,15 +137,13 @@ ralph count < MAX {
             body: JSON.stringify({ source: source.value }),
           });
           const result = await response.json();
-          if (result.stderr) {
-            output.textContent = "";
-            return;
-          }
-          output.textContent = result.stdout;
+          const text = result.stdout ?? "";
+          output.textContent = text;
           if (result.stderr) {
             const err = document.createElement("span");
             err.className = "err";
-            err.textContent = result.stderr;
+            const needsNewline = text && !text.endsWith("\n");
+            err.textContent = (needsNewline ? "\n" : "") + result.stderr;
             output.appendChild(err);
           }
           if (!result.stdout && !result.stderr) {
